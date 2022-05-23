@@ -420,12 +420,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eca3cc1ba8e72ac4d8df2ffc1b4d713f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  webSocketConnector: {fileID: 809543519}
-  messageToSend: Left
+  posePublisher: {fileID: 809543521}
+  twistPublisher: {fileID: 0}
   tagsToDetect:
   - LeftHand
-  min: -0.1
-  max: 0.1
 --- !u!4 &498526713 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 432918, guid: b9c7aaf0d314cb847a3b2a20e893f1b6, type: 3}
@@ -562,7 +560,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 809543520}
+  - component: {fileID: 809543522}
+  - component: {fileID: 809543521}
   - component: {fileID: 809543519}
+  - component: {fileID: 809543523}
   m_Layer: 0
   m_Name: WebSocketConnector
   m_TagString: Untagged
@@ -577,11 +578,15 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 809543518}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fea37da486275f44ebec5657c00fd8d5, type: 3}
+  m_Script: {fileID: 11500000, guid: 4fe4cf3b1dd3507418f7ec019f9193ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Topic: 
+  TimeStep: 0
+  JointNames: []
+  JointStateWriters: []
 --- !u!4 &809543520
 Transform:
   m_ObjectHideFlags: 0
@@ -596,6 +601,50 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &809543521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 809543518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33ca1ee46c0e22549baba9c268dcdb12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Topic: /pose
+--- !u!114 &809543522
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 809543518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff98778ae051cfd40a6e4effdf851ebd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SecondsTimeout: 10
+  Serializer: 0
+  protocol: 0
+  RosBridgeServerUrl: ws://192.168.10.170:9090
+--- !u!114 &809543523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 809543518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22a2c06204e2bd44e8d32641d35905b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Topic: /twistTopic
+  PublishedTransformStart: {fileID: 0}
+  PublishedTransformEnd: {fileID: 0}
 --- !u!1 &853726057
 GameObject:
   m_ObjectHideFlags: 0
@@ -640,12 +689,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eca3cc1ba8e72ac4d8df2ffc1b4d713f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  webSocketConnector: {fileID: 809543519}
-  messageToSend: Left
+  posePublisher: {fileID: 809543521}
+  twistPublisher: {fileID: 0}
   tagsToDetect:
   - LeftHand
-  min: -0.1
-  max: 0.1
 --- !u!65 &853726060
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -995,12 +1042,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eca3cc1ba8e72ac4d8df2ffc1b4d713f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  webSocketConnector: {fileID: 809543519}
-  messageToSend: Right
+  posePublisher: {fileID: 809543521}
+  twistPublisher: {fileID: 0}
   tagsToDetect:
   - RightHand
-  min: -0.1
-  max: 0.1
 --- !u!65 &1371521743
 BoxCollider:
   m_ObjectHideFlags: 0
