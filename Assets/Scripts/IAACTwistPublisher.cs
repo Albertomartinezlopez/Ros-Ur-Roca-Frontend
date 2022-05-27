@@ -2,13 +2,19 @@
 using UnityEngine;
 using RosSharp;
 using RosSharp.RosBridgeClient;
+using UnityEngine.UI;
 
-public class IAACTwistPublisher : UnityPublisher<RosSharp.RosBridgeClient.MessageTypes.Geometry.Twist>
+public class IAACTwistPublisher : UnityPublisher<RosSharp.RosBridgeClient.MessageTypes.Geometry.TwistStamped>
 {
-    public Transform PublishedTransformStart;
-    public Transform PublishedTransformEnd;
+    public Transform baseTransform;
+    public Transform PublishedTransform;
 
-    private RosSharp.RosBridgeClient.MessageTypes.Geometry.Twist message;
+    public Text text;
+
+    private RosSharp.RosBridgeClient.MessageTypes.Geometry.TwistStamped message;
+	private string FrameId = "wrist_3_link";
+
+    public float scalar = 5;
 
     protected override void Start()
     {
@@ -21,20 +27,28 @@ public class IAACTwistPublisher : UnityPublisher<RosSharp.RosBridgeClient.Messag
     //     UpdateMessage();
     // }
 
-    private void InitializeMessage()
-    {
-        message = new RosSharp.RosBridgeClient.MessageTypes.Geometry.Twist();
+    private void InitializeMessage(){
+		this.message = new RosSharp.RosBridgeClient.MessageTypes.Geometry.TwistStamped{
+			header = new RosSharp.RosBridgeClient.MessageTypes.Std.Header() {
+				frame_id = this.FrameId
+			},
+			twist =  new RosSharp.RosBridgeClient.MessageTypes.Geometry.Twist()
+		};
     }
 
-    public void UpdateMessage()
-    {
-        Vector3 linear = PublishedTransformEnd.position - PublishedTransformStart.position;
-        Vector3 angular = PublishedTransformEnd.eulerAngles - PublishedTransformStart.eulerAngles;
-        GetGeometryPoint(linear.Unity2Ros(), message.linear);
-        GetGeometryEulerAngles(angular.Unity2Ros(), message.angular);
+    public void UpdateMessage(){
+		this.message.header.Update();
+        Vector3 linear = baseTransform.InverseTransformPoint (PublishedTransform.position);
+        linear *= scalar;
+        Vector3 angular = PublishedTransform.eulerAngles - baseTransform.eulerAngles;
+        GetGeometryPoint(linear.Unity2Ros(), message.twist.linear);
+       GetGeometryEulerAngles(angular.Unity2Ros(), message.twist.angular);
+        Debug.Log("Twist: lenar: " + linear + ", angular: " + angular);
+        text.text = "Sending a Twist: lenar: " + linear.ToString("F4") + ", angular: " + angular.ToString("F4");
 
-        Publish(message);
-    }
+       Publish(message);
+       print(message);
+	}
 
     private static void GetGeometryPoint(Vector3 position, RosSharp.RosBridgeClient.MessageTypes.Geometry.Vector3 geometryPoint)
     {

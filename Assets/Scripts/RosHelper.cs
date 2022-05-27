@@ -6,6 +6,13 @@ using System;
 
 public static class RosHelper
 {
+    public static RosSharp.RosBridgeClient.MessageTypes.Geometry.Vector3 UnityPointToRosVector3(this Vector3 unityPoint)
+    {
+        return new RosSharp.RosBridgeClient.MessageTypes.Geometry.Vector3(
+            Convert.ToDouble(unityPoint.x),
+            Convert.ToDouble(unityPoint.z),
+            Convert.ToDouble(unityPoint.y));
+    }
     public static RosSharp.RosBridgeClient.MessageTypes.Geometry.Point UnityPointToRosPoint(this Vector3 unityPoint)
     {
         return new RosSharp.RosBridgeClient.MessageTypes.Geometry.Point(
